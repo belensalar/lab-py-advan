@@ -1,0 +1,23 @@
+#!/bin/bash
+
+#SBATCH -p hpc-bio-mendel
+#SBATCH --chdir=/home/alumno21/lab-py-advan
+#SBATCH -J submit_Primes_mendel-alumno21.sb
+#SBATCH --cpus-per-task=1
+
+module load anaconda/2025.06
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK #el número de núcleos a usar se indica 
+# en la línea de comandos
+
+NOTEBOOK="primes-par-alumno21.ipynb"
+
+#convertimos el notebook a script
+jupyter nbconvert --to script "$NOTEBOOK" --output primes-par-alumno21
+
+echo "Ejecutando con 10**7"
+time -p srun ipython primes-par-alumno21.py 10000000
+
+echo "Ejecutando con 10**8"
+time -p srun ipython primes-par-alumno21.py 100000000
+
+module unload anaconda/2025.06
