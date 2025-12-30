@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#SBATCH -p hpc-bio-mendel
+#SBATCH --chdir=/home/alumno21/lab-py-advan
+#SBATCH -J submit_Reduc_mendel-alumno21.sb
+#SBATCH --cpus-per-task=1
+
+module load anaconda/2025.06
+export OMP_NUM_THREADS= $SLURM_CPUS_PER_TASK
+
+NOTEBOOK="reduc-operation-array-par-alumno21.ipynb"
+
+jupyter nbconvert --to script "$NOTEBOOK" --output reduc-operation-array-par-alumno21
+
+echo "Ejecutando con 10**8"
+time -p srun ipython reduc-operation-array-par-alumno21.py 100000000
+
+echo "Ejecutando con 10**9"
+time -p srun ipython reduc-operation-array-par-alumno21.py 1000000000
+
+module unload anaconda/2025.06
