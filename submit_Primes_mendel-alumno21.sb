@@ -14,10 +14,10 @@ NOTEBOOK="primes-par-alumno21.ipynb"
 #convertimos el notebook a script
 jupyter nbconvert --to script "$NOTEBOOK" --output primes-par-alumno21
 
+echo "Ejecutando con 10**6"
+time -p srun ipython primes-par-alumno21.py 1000000
+
 echo "Ejecutando con 10**7"
 time -p srun ipython primes-par-alumno21.py 10000000
-
-echo "Ejecutando con 10**8"
-time -p srun ipython primes-par-alumno21.py 100000000
 
 module unload anaconda/2025.06
